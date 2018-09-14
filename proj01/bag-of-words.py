@@ -37,8 +37,37 @@ class BagOfWords:
   def __build_labels_desc(self, labels):
     self.labels_desc = {k: {'index': i} for i, k in enumerate(list(set(labels)))}
 
-  # fit with the training data and return the features
-  def fit_features(self, contents, labels):
+  # feature label function to combine feature vector with label
+  def feature_label_vector(self, x, y):
+    features_len = len(x)
+    labels_len = len(self.labels_desc)
+
+    feature_label_vector = [0] * features_len * labels_len
+
+    y_index = self.labels_desc[y]['index']
+    for i, v in enumerate(x):
+        feature_label_vector[y_index * features_len + i] = v
+
+    return feature_label_vector
+
+  # feature extraction function to get vector out of tokens
+  def feature_data(self, tokens):
+    features_len = len(self.features_desc) + 1 # give it an offset
+
+    features_vector = [0] * features_len
+    for token in tokens:
+      if token in self.features_desc:
+        features_vector[self.features_desc[token]['index']] += 1
+      else:
+        features_vector[self.features_desc['UKN']['index']] += 1
+
+    # set offset
+    features_vector[features_len - 1] = 1
+
+    return features_vector
+
+  # fit with the training data and return the feature vectors
+  def fit_transform(self, contents, labels):
     # lowercase
     if (self.lower_case):
       contents = [s.lower() for s in contents]
@@ -53,13 +82,17 @@ class BagOfWords:
     self.__build_features_desc(token_contents)
     self.__build_labels_desc(labels)
 
+    return [self.feature_data(tokens) for tokens in token_contents]
+
 
 trn_data = open("trn.data").read().strip().split("\n")
 trn_labels = open("trn.label").read().strip().split("\n")
 
 bag_of_words = BagOfWords(True, True, 5)
 
-bag_of_words.fit_features(trn_data, trn_labels)
+features_vectors = bag_of_words.fit_transform(trn_data, trn_labels)
+
 print(bag_of_words.features_desc)
 print(len(bag_of_words.features_desc))
 print(bag_of_words.labels_desc)
+print(len(features_vectors[0]))
