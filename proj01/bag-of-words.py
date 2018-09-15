@@ -26,9 +26,9 @@ class BagOfWords:
 
         wordcounts[token] += 1
 
-    # remove low frequency words and add UKN & OFFSET
+    # remove low frequency words and add UNK & OFFSET
     wordcount_keys = [k for k, v in wordcounts.items() if v >= self.min_freq]
-    wordcount_keys.extend(['UKN', 'OFFSET'])
+    wordcount_keys.extend(['UNK', 'OFFSET'])
     # assign index to features
     wordcount_indexes = {v: i for i, v in enumerate(wordcount_keys)}
 
@@ -63,7 +63,7 @@ class BagOfWords:
       if token in self.wordcount_indexes:
         wordcount_vector[self.wordcount_indexes[token]] += 1
       else:
-        wordcount_vector[self.wordcount_indexes['UKN']] += 1
+        wordcount_vector[self.wordcount_indexes['UNK']] += 1
 
     # set offset
     wordcount_vector[features_len - 1] = 1
