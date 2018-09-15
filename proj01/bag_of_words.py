@@ -1,4 +1,5 @@
 import re
+import numpy as np
 # from nltk.tokenize import word_tokenize
 
 class BagOfWords:
@@ -44,21 +45,13 @@ class BagOfWords:
   # feature label function to combine feature vector with label
   def get_feature_vector(self, x, y):
     features_len = len(x)
-    labels_len = len(self.label_indexes)
-
-    feature_vector = [0] * features_len * labels_len
-
-    y_index = self.label_indexes[y]
-    for i, v in enumerate(x):
-        feature_vector[y_index * features_len + i] = v
-
-    return feature_vector
+    return np.array([x if l == y else np.zeros(features_len) for l in self.label_keys]).flatten()
 
   # feature extraction function to get vector out of tokens
   def get_wordcount_vector(self, tokens):
     features_len = len(self.wordcount_indexes)
 
-    wordcount_vector = [0] * features_len
+    wordcount_vector = np.zeros(features_len)
     for token in tokens:
       if token in self.wordcount_indexes:
         wordcount_vector[self.wordcount_indexes[token]] += 1
@@ -91,12 +84,12 @@ class BagOfWords:
     self.__build_wordcount_indexes(token_texts)
     self.__build_label_indexes(labels)
 
-    return [self.get_wordcount_vector(tokens) for tokens in token_texts]
+    return np.array([self.get_wordcount_vector(tokens) for tokens in token_texts])
 
   # transform texts into the wordcount vectors
   def transform(self, texts):
     token_texts = self.__tokenize_texts(texts)
-    return [self.get_wordcount_vector(tokens) for tokens in token_texts]
+    return np.array([self.get_wordcount_vector(tokens) for tokens in token_texts])
 
   # a help util to convert feature back to words in testing
   def words_by_feature(self, feature, label):
