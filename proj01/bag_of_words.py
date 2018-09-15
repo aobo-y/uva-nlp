@@ -70,23 +70,33 @@ class BagOfWords:
 
     return wordcount_vector
 
-  # fit with the training data and return the wordcount vectors
-  def fit_transform(self, contents, labels):
+  def __tokenize_texts(self, texts):
     # lowercase
     if (self.lower_case):
-      contents = [s.lower() for s in contents]
+      texts = [s.lower() for s in texts]
 
-    token_contents = [s.split(' ') for s in contents]
+    token_texts = [s.split(' ') for s in texts]
 
     # filter out tokens without any letter [a-zA-Z]
     if (self.filter_letter):
       filterLetter = lambda tokens: [t for t in tokens if re.search(r'[a-zA-Z]', t) is not None]
-      token_contents = [filterLetter(tokens) for tokens in token_contents]
+      token_texts = [filterLetter(tokens) for tokens in token_texts]
 
-    self.__build_wordcount_indexes(token_contents)
+    return token_texts
+
+  # fit with the training data and return the wordcount vectors
+  def fit_transform(self, texts, labels):
+    token_texts = self.__tokenize_texts(texts)
+
+    self.__build_wordcount_indexes(token_texts)
     self.__build_label_indexes(labels)
 
-    return [self.get_wordcount_vector(tokens) for tokens in token_contents]
+    return [self.get_wordcount_vector(tokens) for tokens in token_texts]
+
+  # transform texts into the wordcount vectors
+  def transform(self, texts):
+    token_texts = self.__tokenize_texts(texts)
+    return [self.get_wordcount_vector(tokens) for tokens in token_texts]
 
   # a help util to convert feature back to words in testing
   def words_by_feature(self, feature, label):
