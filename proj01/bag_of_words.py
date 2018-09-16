@@ -39,6 +39,8 @@ class BagOfWords:
   # construct label_indexes with distinct label and index
   def __build_label_indexes(self, labels):
     label_keys = list(set(labels))
+    # sort the label to ensure feature vector sequence, since set has no sequence
+    label_keys.sort()
     self.label_keys = label_keys
     self.label_indexes = {k: i for i, k in enumerate(label_keys)}
 
