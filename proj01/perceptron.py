@@ -58,11 +58,14 @@ class Perceptron:
       if (shuffle):
         idx = np.random.permutation(len(data))
 
-  def accuracy(self, data, labels):
+  def predict(self, data):
     feature_vectors_ary = [self.__cvt_ins_to_fv(instance) for instance in data]
 
     predict_indexes = [self.__predict_label_index(feature_vectors) for feature_vectors in feature_vectors_ary]
-    predict_labels = [self.bag_of_words.label_keys[i] for i in predict_indexes]
+    return [self.bag_of_words.label_keys[i] for i in predict_indexes]
+
+  def accuracy(self, data, labels):
+    predict_labels = self.predict(data)
     return round(sum(1 for pl, l in zip(predict_labels, labels) if pl == l) / len(labels), 4)
 
 
