@@ -4,7 +4,7 @@ from utils import print_cells
 from bag_of_words import BagOfWords
 
 
-class Perceptron:
+class AvgPerceptron:
   """averaged perceptron classification"""
 
   avg_weights = None
@@ -76,16 +76,17 @@ class Perceptron:
 
 
 def main():
-  EPOCH = 5
-  MIN_FREQ = 8
+  EPOCH = 10
+  MIN_FREQ = 5
   SHUFFLE = True
 
   trn_texts= open("trn.data").read().strip().split("\n")
   trn_labels = open("trn.label").read().strip().split("\n")
   dev_texts= open("dev.data").read().strip().split("\n")
   dev_labels = open("dev.label").read().strip().split("\n")
+  tst_texts= open("tst.data").read().strip().split("\n")
 
-  print('perceptron')
+  print('averaged perceptron')
   print('-' * 40)
   print('trn data size:', len(trn_texts))
   print('dev data size:', len(dev_texts))
@@ -93,12 +94,13 @@ def main():
   bag_of_words = BagOfWords(True, True, MIN_FREQ)
   trn_data = bag_of_words.fit_transform(trn_texts, trn_labels)
   dev_data = bag_of_words.transform(dev_texts)
+  tst_data = bag_of_words.transform(tst_texts)
 
   print('min vocabulary freq:', MIN_FREQ)
   print('vocabulary size:', len(trn_data[0]))
   print('shuffle after epoch:', SHUFFLE)
 
-  perceptron = Perceptron(bag_of_words)
+  perceptron = AvgPerceptron(bag_of_words)
 
   print('training start\n')
   start = time()
@@ -111,6 +113,10 @@ def main():
 
   print('\ntraining end')
   print('duration:', round(time() - start))
+
+  print('write predict result')
+  pred_tst_labels = perceptron.predict(tst_data)
+  open('averaged-perceptron-test.pred', 'w+').write('\n'.join(pred_tst_labels))
 
 if __name__ == '__main__':
   main()
