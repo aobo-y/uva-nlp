@@ -16,16 +16,28 @@ class Perceptron:
   def __cvt_ins_to_fv(self, instance):
     return np.array([self.bag_of_words.get_feature_vector(instance, l) for l in self.bag_of_words.label_keys])
 
-  def fit(self, data, labels, epoch = 5, epoch_callback = None):
-    feature_vectors_ary = [self.__cvt_ins_to_fv(instance) for instance in data]
+  def __predict_label_index(self, feature_vectors):
+    # shape(label_size * feature_size) dot shape(feature_size, 1) = vector of scores in label_size
+    scores =  feature_vectors @ self.weights
+    return np.argmax(scores)
+
+  def fit(self, data, labels, epoch = 5, shuffle = False, epoch_callback = None):
+    feature_vectors_ary = np.array([self.__cvt_ins_to_fv(instance) for instance in data])
+    labels = np.array(labels)
 
     # length of weights matches the length of feature vector
     self.weights = np.zeros(len(feature_vectors_ary[0][0]))
 
+    # create looping indexes to trieve data in order to shuffle it to change the training order
+    idx = np.arange(len(data))
+
     t = 0
     # start = time()
     for i in range(0, epoch):
-      for feature_vectors, label in zip(feature_vectors_ary, labels):
+      for looping_index in idx:
+        feature_vectors = feature_vectors_ary[looping_index]
+        label = labels[looping_index]
+
         predict_index = self.__predict_label_index(feature_vectors)
 
         correct_index = self.bag_of_words.label_indexes[label]
@@ -42,10 +54,9 @@ class Perceptron:
       if (epoch_callback is not None):
         epoch_callback(i)
 
-  def __predict_label_index(self, feature_vectors):
-    # shape(label_size * feature_size) dot shape(feature_size, 1) = vector of scores in label_size
-    scores =  feature_vectors @ self.weights
-    return np.argmax(scores)
+      # shuffle by gen random permutation
+      if (shuffle):
+        idx = np.random.permutation(len(data))
 
   def accuracy(self, data, labels):
     feature_vectors_ary = [self.__cvt_ins_to_fv(instance) for instance in data]
@@ -55,10 +66,10 @@ class Perceptron:
     return round(sum(1 for pl, l in zip(predict_labels, labels) if pl == l) / len(labels), 4)
 
 
-
 def main():
-  EPOCH = 7
+  EPOCH = 5
   MIN_FREQ = 8
+  SHUFFLE = True
 
   trn_texts= open("trn.data").read().strip().split("\n")
   trn_labels = open("trn.label").read().strip().split("\n")
@@ -76,18 +87,21 @@ def main():
 
   print('min vocabulary freq:', MIN_FREQ)
   print('vocabulary size:', len(trn_data[0]))
+  print('shuffle after epoch:', SHUFFLE)
 
   perceptron = Perceptron(bag_of_words)
 
   print('training start\n')
+  start = time()
   print('data accurary')
   print_cells(['epoch', 'trn', 'dev'], 9)
   print('-' * 30)
 
   print_accuracy = lambda i: print_cells([i, perceptron.accuracy(trn_data, trn_labels), perceptron.accuracy(dev_data, dev_labels)], 9)
-  perceptron.fit(trn_data, trn_labels, EPOCH, print_accuracy)
+  perceptron.fit(trn_data, trn_labels, EPOCH, SHUFFLE, print_accuracy)
 
   print('\ntraining end')
+  print('duration:', time() - start)
 
 if __name__ == '__main__':
   main()
