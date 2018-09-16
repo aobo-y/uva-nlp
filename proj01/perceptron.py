@@ -101,7 +101,7 @@ def main():
   perceptron.fit(trn_data, trn_labels, EPOCH, SHUFFLE, print_accuracy)
 
   print('\ntraining end')
-  print('duration:', time() - start)
+  print('duration:', round(time() - start))
 
 if __name__ == '__main__':
   main()
