@@ -60,12 +60,12 @@ vectorizer = CountVectorizer(ngram_range = (1, 2))
 linear_regression = LogisticRegression()
 
 trn_data, dev_data = run_vectorize('2-gram', vectorizer)
-# run_training('default', linear_regression, trn_data, dev_data)
+run_training('default', linear_regression, trn_data, dev_data)
 
 # 3.3
 # reuse the vectorizer in step 2
 # for l in [0.0001, 0.001, 0.01, 0.1, 1, 10, 100]:
-for l in [5, 6, 7, 8]: # 6
+for l in [5, 6, 7, 8, 9]: # 6
   linear_regression = LogisticRegression(C = 1 / l)
 
   run_training(f'L2 lamda={l}', linear_regression, trn_data, dev_data)
@@ -76,3 +76,10 @@ for l in [0.002, 0.003, 0.004, 0.005, 2, 3, 4]:
   linear_regression = LogisticRegression(penalty = 'l1', C = 1 / l)
 
   run_training(f'L1 lamda={l}', linear_regression, trn_data, dev_data)
+
+
+
+for s in ['newton-cg', 'lbfgs']:
+  linear_regression = LogisticRegression(penalty = 'l2', C = 1 / 6, solver = s)
+
+  run_training(f'solver={s}', linear_regression, trn_data, dev_data)
