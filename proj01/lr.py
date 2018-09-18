@@ -78,8 +78,16 @@ for l in [0.002, 0.003, 0.004, 0.005, 2, 3, 4]:
   run_training(f'L1 lamda={l}', linear_regression, trn_data, dev_data)
 
 
+vectorizer = CountVectorizer(ngram_range = (1, 2), min_df = 2)
+trn_data, dev_data = run_vectorize('2-gram min_df=2', vectorizer)
 
-for s in ['newton-cg', 'lbfgs']:
-  linear_regression = LogisticRegression(penalty = 'l2', C = 1 / 6, solver = s)
 
-  run_training(f'solver={s}', linear_regression, trn_data, dev_data)
+linear_regression = LogisticRegression(penalty = 'l2', C = 0.124, solver = 'lbfgs')
+
+run_training(f'l2 c=0.124 solver=lbfgs', linear_regression, trn_data, dev_data)
+
+tst_texts = open("tst.data").read().strip().split("\n")
+tst_data = vectorizer.transform(tst_texts)
+
+tst_labels = linear_regression.predict(tst_data)
+open('lr-test.pred', 'w+').write('\n'.join(tst_labels))
