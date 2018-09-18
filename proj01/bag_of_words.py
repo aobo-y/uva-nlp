@@ -94,8 +94,8 @@ class BagOfWords:
     return np.array([self.get_wordcount_vector(tokens) for tokens in token_texts])
 
   # a help util to convert feature back to words in testing
-  def words_by_feature(self, feature, label):
-    return [self.wordcount_keys[i - self.label_indexes[label] * len(self.wordcount_keys)] for i, v in enumerate(feature) if v != 0]
+  # def words_by_feature(self, feature, label):
+  #   return [self.wordcount_keys[i - self.label_indexes[label] * len(self.wordcount_keys)] for i, v in enumerate(feature) if v != 0]
 
 
 def main():
@@ -104,7 +104,8 @@ def main():
 
   bag_of_words = BagOfWords(True, True, 5)
 
-  print('test bag of words with training data & label\n----------------------------------------------')
+  print('test bag of words with training data & label')
+  print('-' * 40)
   trn_data = bag_of_words.fit_transform(trn_texts, trn_labels)
 
   print('wordcounts vector length:', len(bag_of_words.wordcount_indexes))
@@ -112,7 +113,6 @@ def main():
 
   sample_feature = bag_of_words.get_feature_vector(trn_data[0], trn_labels[0])
   print('feature vector length', len(sample_feature))
-  # print(bag_of_words.words_by_feature(sample_feature, trn_labels[0]))
 
 if __name__ == "__main__":
    main()
