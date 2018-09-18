@@ -13,6 +13,19 @@ The vocabulary size is reduced to `13400` including the `UKN` & `OFFSET` token, 
 ### 2.2
 Below is my Perceptron's accurary of 10 epochs, with shuffling data after each epoch.
 
+epoch|   trn   |   dev
+-----|---------|----------
+0    |  0.759  |  0.7496
+1    |  0.861  |  0.8358
+2    |  0.8351 |  0.8195
+3    |  0.8961 |  0.8647
+4    |  0.9021 |  0.863
+5    |  0.896  |  0.8608
+6    |  0.9066 |  0.8702
+7    |  0.8981 |  0.8536
+8    |  0.8749 |  0.8405
+9    |  0.9122 |  0.8679
+
 ### 2.3
 Below is my Averaged Perceptron's accurary of 10 epochs, with shuffling data after each epoch.
 

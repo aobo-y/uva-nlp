@@ -70,8 +70,8 @@ class Perceptron:
 
 
 def main():
-  EPOCH = 5
-  MIN_FREQ = 8
+  EPOCH = 10
+  MIN_FREQ = 5
   SHUFFLE = True
 
   trn_texts= open("trn.data").read().strip().split("\n")
