@@ -81,3 +81,9 @@ With regularization L1, after several tries, the `λ` is narrowed into ranges `[
 2     |  0.9674  |  0.8984
 3     |  0.9512  |  0.9013
 4     |  0.9405  |  0.8998
+
+### 3.5
+
+   trn   |   dev
+---------|----------
+  0.9929 |  0.9063

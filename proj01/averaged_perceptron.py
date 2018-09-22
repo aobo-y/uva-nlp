@@ -1,6 +1,6 @@
 import numpy as np
 from time import time
-from utils import print_cells
+from utils import print_cells, plot
 from bag_of_words import BagOfWords
 
 
@@ -108,15 +108,24 @@ def main():
   print_cells(['epoch', 'trn', 'dev'], 9)
   print('-' * 30)
 
-  print_accuracy = lambda i: print_cells([i, perceptron.accuracy(trn_data, trn_labels), perceptron.accuracy(dev_data, dev_labels)], 9)
-  perceptron.fit(trn_data, trn_labels, EPOCH, SHUFFLE, print_accuracy)
+  trn_acc = []
+  dev_acc = []
+
+  def epoch_callback(i):
+    trn_acc.append(perceptron.accuracy(trn_data, trn_labels))
+    dev_acc.append(perceptron.accuracy(dev_data, dev_labels))
+    print_cells([i, trn_acc[i], dev_acc[i]], 9)
+
+  perceptron.fit(trn_data, trn_labels, EPOCH, SHUFFLE, epoch_callback)
 
   print('\ntraining end')
   print('duration:', round(time() - start))
 
-  print('write predict result')
-  pred_tst_labels = perceptron.predict(tst_data)
-  open('averaged-perceptron-test.pred', 'w+').write('\n'.join(pred_tst_labels))
+  plot(list(range(0, EPOCH)), trn_acc, dev_acc, 'Perceptron')
+
+  # print('write predict result')
+  # pred_tst_labels = perceptron.predict(tst_data)
+  # open('averaged-perceptron-test.pred', 'w+').write('\n'.join(pred_tst_labels))
 
 if __name__ == '__main__':
   main()
