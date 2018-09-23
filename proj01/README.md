@@ -13,7 +13,7 @@ The vocabulary size is reduced to `13400` including the `UKN` & `OFFSET` token, 
 ### 2.2
 Below is my Perceptron's accurary of 10 epochs, with shuffling data after each epoch.
 
-<img width="625" alt="perceptron-plot" src="/proj01/perceptron_plot.png">
+<img width="625" alt="perceptron-plot" src="https://raw.githubusercontent.com/aobo-y/uva-nlp-projects/master/proj01/perceptron_plot.png">
 
 epoch|   trn   |   dev
 -----|---------|----------
@@ -31,7 +31,7 @@ epoch|   trn   |   dev
 ### 2.3
 Below is my Averaged Perceptron's accurary of 10 epochs, with shuffling data after each epoch.
 
-<img width="625" alt="averaged-perceptron-plot" src="/proj01/averaged_perceptron_plot.png">
+<img width="625" alt="averaged-perceptron-plot" src="https://raw.githubusercontent.com/aobo-y/uva-nlp-projects/master/proj01/averaged_perceptron_plot.png">
 
 epoch|   trn    |   dev
 -----|----------|-----------
@@ -74,6 +74,9 @@ With regularization L2, after several tries, the `λ` is narrowed into range `[5
 9 |  0.9946  |  0.9051
 
 ### 3.4
+
+Based on the definition of 1-norm, the illustration of L1's shape is the square diamond. Compared with L2' shape, which is a spherical, it has higher possiblities to meet the ellipses, which stands for the original cost function, at its corners. The corners of L1 are all on the axises, which means a feature coefficient θ is zero. Therefore, L1 is more possible to make more features has no impacts, which means L1 prefers sparse solutions.
+
 With regularization L1, after several tries, the `λ` is narrowed into ranges `[0.002, 0.005]` and `[2, 4]`
 
 λ     |    trn   |   dev
