@@ -77,7 +77,7 @@ With regularization L2, after several tries, the `λ` is narrowed into range `[5
 
 <img width="425" alt="l1_desc" src="https://raw.githubusercontent.com/aobo-y/uva-nlp-projects/master/proj01/l1_desc.png">
 
-Based on the definition of 1-norm, the illustration of L1's shape is the square diamond. Compared with L2' shape, which is a spherical, it has higher possiblities to meet the ellipses, which stands for the original cost function, at its corners. The corners of L1 are all on the axises, which means a feature coefficient θ is zero. Therefore, L1 is more possible to make more features has no impacts, which means L1 prefers sparse solutions.
+Based on the definition of 1-norm, the illustration of L1's shape is the square diamond. Compared with L2' shape, which is a spherical, it has higher possiblities to meet the ellipses, which stands for the original cost function, at its angles. The angles of L1 are all on the axises, which means a feature coefficient θ is zero. Therefore, L1 is more possible to make more features has no impacts, which means L1 prefers sparse solutions.
 
 With regularization L1, after several tries, the `λ` is narrowed into ranges `[0.002, 0.005]` and `[2, 4]`
 
