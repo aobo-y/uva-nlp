@@ -1,21 +1,10 @@
-import os
 from decimal import Decimal
 from math import log2
 
+from file import load_data, write_data
+
 MIN_FREQ = 5
 tags = {'A', 'C', 'D', 'M', 'N', 'O', 'P', 'R', 'V', 'W'}
-
-def load_data(filename):
-  dname = os.path.dirname(__file__)
-  lines= open(dname + '/' + filename).read().strip().split('\n')
-
-  data = [[t.split('/') for t in l.strip().split(' ')] for l in lines]
-  return data
-
-
-def write_data(filename, data):
-  dname = os.path.dirname(__file__)
-  open(dname + '/' + filename, 'w+').write(data)
 
 
 def get_vocabulary(data, min_freq = 0):
