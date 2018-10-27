@@ -3,7 +3,7 @@ from math import log2
 
 from file import load_data, write_data
 
-MIN_FREQ = 5
+MIN_FREQ = 2
 tags = {'A', 'C', 'D', 'M', 'N', 'O', 'P', 'R', 'V', 'W'}
 
 
@@ -35,7 +35,7 @@ def get_transition_probability(data, beta = 0):
 
   tag_size = len(tags) + 1 # include END
   tag_sum = {t1: sum(v1.values()) for t1, v1 in t_count.items()}
-  to_prob = lambda count, tag: (Decimal(count) + beta) / (Decimal(tag_sum[tag]) + tag_size * beta)
+  to_prob = lambda count, tag: (Decimal(count) + Decimal(beta)) / (Decimal(tag_sum[tag]) + tag_size * Decimal(beta))
 
   t_prob = {t1: {t2: to_prob(v2, t1) for t2, v2 in v1.items()} for t1, v1 in t_count.items()}
 
@@ -55,7 +55,7 @@ def get_emission_probability(data, vocabulary, alpha = 0):
 
   vocab_size = len(vocabulary)
   tag_sum = {t: sum(v1.values()) for t, v1 in e_count.items()}
-  to_prob = lambda count, tag: (Decimal(count) + alpha) / (Decimal(tag_sum[tag]) + vocab_size * alpha)
+  to_prob = lambda count, tag: (Decimal(count) + Decimal(alpha)) / (Decimal(tag_sum[tag]) + vocab_size * Decimal(alpha))
 
   e_prob = {t: {w: to_prob(v2, t) for w, v2 in v1.items()} for t, v1 in e_count.items()}
 
