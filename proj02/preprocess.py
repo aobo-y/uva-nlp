@@ -73,6 +73,7 @@ def format_probs(data):
 
 def preprocess(alpha = 0, beta = 0):
   data = load_data('trn.pos')
+
   vocabulary = get_vocabulary(data, MIN_FREQ)
 
   transition_probability = get_transition_probability(data, alpha)

@@ -30,3 +30,14 @@ The trellis table is as following
 
 Based on above table, the sequence of `GCACTG` should be `HHLLLL`.
 
+### 1.2 - 1
+
+**K** is set to `2`. The corresponding vocabulary size **V** is `24509`
+
+### 1.2 - 5
+
+While **α** and **β** are both `1`, the accuracy of the dev data is `43.75%`
+
+### 1.2 - 7
+
+When **α** is `300` and **β** is `0.005`, the accuracy of the dev data can achieve the best, `49.86%`

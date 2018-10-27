@@ -37,7 +37,13 @@ def viterbi(seqs, score):
 
 
 def main():
-  t_logs, e_logs = preprocess(100, 0.01)
+  ALPHA = 300
+  BETA = 0.005
+
+  print('alpha:', ALPHA)
+  print('beta:', BETA)
+
+  t_logs, e_logs = preprocess(ALPHA, BETA)
   dev_data = load_data('dev.pos')
 
   dev_words = [[token[0] for token in line] for line in dev_data]
@@ -58,7 +64,7 @@ def main():
   predict_labels = [viterbi(line, score) for line in dev_words]
 
   correct_no = len([1 for i in range(len(dev_labels)) if dev_labels[i] == predict_labels[i]])
-  print(correct_no / len(dev_labels))
+  print('accuracy:', correct_no / len(dev_labels))
 
   # err_res = [[dev_labels[i], predict_labels[i]] for i in range(len(dev_labels)) if dev_labels[i] != predict_labels[i]]
 
