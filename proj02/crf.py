@@ -34,7 +34,8 @@ class CRF(object):
     def train(self):
         print('Training CRF ...')
         self.model = crfsuite.CRF(
-            algorithm='lbfgs',
+            # algorithm='lbfgs',
+            algorithm='ap',
             max_iterations=5)
         self.model.fit(self.trn_feats, self.trn_tags)
         trn_tags_pred = self.model.predict(self.trn_feats)

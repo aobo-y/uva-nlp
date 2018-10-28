@@ -48,6 +48,9 @@ When **α** is `300` and **β** is `0.005`, the accuracy of the dev data can ach
 
 ## Conditional Random Fields
 
+### 1
+
+
 ### 2
 
 Below is the list of features added. The accuracy on dev data is `71.14%`
@@ -67,3 +70,7 @@ next_tok  | next token
 next_tok_is_digit  | is the next token a digit number
 next_tok_first_2_letters  | the last 2 letters of the next token
 next_tok_last_2_letters  | the last 2 letters of the next token
+
+### 3
+
+After switching the algorithm from `lbfgs` to `averaged perceptron`, the accuracy on dev data is `85.45%`
