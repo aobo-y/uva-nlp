@@ -98,5 +98,11 @@ def main():
   emission_probability = get_emission_probability(trn_data, vocabulary)
   write_data('eprob.txt', format_probs(emission_probability))
 
+  transition_probability = get_transition_probability(trn_data, 1)
+  write_data('tprob_smoothed.txt', format_probs(transition_probability))
+
+  emission_probability = get_emission_probability(trn_data, vocabulary, 1)
+  write_data('eprob_smoothed.txt', format_probs(emission_probability))
+
 if __name__ == '__main__':
    main()
