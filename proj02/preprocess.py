@@ -71,8 +71,8 @@ def format_probs(data):
   return '\n'.join(['\n'.join([f'{t1} {t2} {v2}' for t2, v2 in v1.items()]) for t1, v1 in data.items()])
 
 
-def preprocess(alpha = 0, beta = 0):
-  data = load_data('trn.pos')
+def preprocess(filename, alpha = 0, beta = 0):
+  data = load_data(filename)
 
   vocabulary = get_vocabulary(data, MIN_FREQ)
 

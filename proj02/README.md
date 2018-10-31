@@ -28,7 +28,7 @@ The trellis table is as following
 | H | 0 | -2.48, START | -5.54, H | -9.18, H | -12.24, H | -15.88, H | -18.72, L | -19.72, L
 | L |   | -3.64, START | -6.12, H | -8.6, H | -11.92, L | -14.66, L | -17.98, L |
 
-### 2
+#### 2
 
 Based on above table, the sequence of `GCACTG` should be `HHLLLL`.
 
@@ -50,9 +50,6 @@ When **α** is `300` and **β** is `0.005`, the accuracy of the dev data can ach
 
 ### 1
 
-
-### 2
-
 Below is the list of features added. The accuracy on dev data is `71.14%`
 
 feature name | description
@@ -71,6 +68,6 @@ next_tok_is_digit  | is the next token a digit number
 next_tok_first_2_letters  | the last 2 letters of the next token
 next_tok_last_2_letters  | the last 2 letters of the next token
 
-### 3
+### 2
 
 After switching the algorithm from `lbfgs` to `averaged perceptron`, the accuracy on dev data is `85.45%`

@@ -43,11 +43,13 @@ def main():
   print('alpha:', ALPHA)
   print('beta:', BETA)
 
-  t_logs, e_logs = preprocess(ALPHA, BETA)
+  t_logs, e_logs = preprocess('trn.pos', ALPHA, BETA)
   dev_data = load_data('dev.pos')
+  tst_data = load_data('tst.word')
 
   dev_words = [[token[0] for token in line] for line in dev_data]
   dev_labels = [[token[1] for token in line] for line in dev_data]
+  tst_words = [[token[0] for token in line] for line in tst_data]
 
   def score(prev_tag, tag, word):
     if tag is None:
@@ -72,6 +74,10 @@ def main():
   #   print(r[0])
   #   print(r[1])
   #   print('\n')
+
+  predict_tst_labels = [viterbi(line, score) for line in tst_words]
+  output = [' '.join([f'{word}/{label}' for word, label in zip(words, labels)]) for words, labels in zip(tst_words, predict_tst_labels)]
+  write_data('viterbi-tuned.txt', '\n'.join(output))
 
 if __name__ == '__main__':
    main()
