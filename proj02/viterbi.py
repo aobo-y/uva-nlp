@@ -37,8 +37,8 @@ def viterbi(seqs, score):
 
 
 def main():
-  ALPHA = 300
-  BETA = 0.005
+  ALPHA = 0.005
+  BETA = 300
 
   print('alpha:', ALPHA)
   print('beta:', BETA)

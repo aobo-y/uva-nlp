@@ -44,7 +44,7 @@ While **α** and **β** are both `1`, the accuracy of the dev data is `43.75%`
 
 #### 7
 
-When **α** is `300` and **β** is `0.005`, the accuracy of the dev data can achieve the best, `49.86%`
+When **α** is `0.005` and **β** is `300`, the accuracy of the dev data can achieve the best, `49.86%`
 
 ## Conditional Random Fields
 

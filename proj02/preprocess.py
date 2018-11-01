@@ -76,8 +76,8 @@ def preprocess(filename, alpha = 0, beta = 0):
 
   vocabulary = get_vocabulary(data, MIN_FREQ)
 
-  transition_probability = get_transition_probability(data, alpha)
-  emission_probability = get_emission_probability(data, vocabulary, beta)
+  transition_probability = get_transition_probability(data, beta)
+  emission_probability = get_emission_probability(data, vocabulary, alpha)
 
   t_logs = prob_to_log(transition_probability)
   e_logs = prob_to_log(emission_probability)

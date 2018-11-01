@@ -59,11 +59,6 @@ class CRF(object):
         tok = sent.tokens[i]
         word_feats = {'tok': tok}
 
-        # TODO for question 1
-        # the i-th tag
-        # word_feats['pos'] = sent.tags[i]
-
-        # TODO for question 2
         # add more features here
 
         word_feats['is_digit'] = tok.isdigit()
