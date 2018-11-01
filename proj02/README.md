@@ -71,3 +71,6 @@ next_tok_last_2_letters  | the last 2 letters of the next token
 ### 2
 
 After switching the algorithm from `lbfgs` to `averaged perceptron`, the accuracy on dev data is `85.45%`
+
+
+Not like CRF built on logistic regression, CRF with average perceptron does not use softmax to normalize the scores and so has no loss function to compute the gradient to update the weights which will further require the forward-backward algorithm. Instead, like perceptron, it will predict a label `yˆ` for the training data. However, while the perceptron enumerates all possible labels to find the one with the max score, it uses the Viterbi algorithm here to efficiently search the tag sequence `yˆ`. If the predicted label is inccorect, it updates the weights by adding the features of correct label and subtracting the feature of the predicted label. Like average perceptron, it maintain the sum of such weights and compute the average to use at the end of training.
