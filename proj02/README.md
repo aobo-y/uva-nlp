@@ -40,11 +40,11 @@ Based on above table, the sequence of `GCACTG` should be `HHLLLL`.
 
 #### 5
 
-While **α** and **β** are both `1`, the accuracy of the dev data is `43.75%`
+While **α** and **β** are both `1`, the token accuracy of the dev data is `94.75%` and sentence accuracy is `43.75%`
 
 #### 7
 
-When **α** is `0.005` and **β** is `300`, the accuracy of the dev data can achieve the best, `49.86%`
+When **α** is `0.005` and **β** is `300`, the accuracy of the dev data can achieve the best, where the the token accuracy is `95.65%` and the sentence accuracy is `49.86%`
 
 ## Conditional Random Fields
 

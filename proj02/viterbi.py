@@ -66,7 +66,12 @@ def main():
   predict_labels = [viterbi(line, score) for line in dev_words]
 
   correct_no = len([1 for i in range(len(dev_labels)) if dev_labels[i] == predict_labels[i]])
-  print('accuracy:', correct_no / len(dev_labels))
+  print('sentence accuracy:', correct_no / len(dev_labels))
+
+  correct_tkn_no = sum( [sum( [1 for dev_tag, pred_tag in zip(dev_labels[i], predict_labels[i]) if dev_tag == pred_tag] ) for i in range(len(dev_labels))] )
+  all_tkn_no = sum([len(label) for label in dev_labels])
+  print('token accuracy:', correct_tkn_no / all_tkn_no)
+
 
   # err_res = [[dev_labels[i], predict_labels[i]] for i in range(len(dev_labels)) if dev_labels[i] != predict_labels[i]]
 
