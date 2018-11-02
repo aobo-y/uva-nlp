@@ -6,7 +6,7 @@
 
 #### 1
 
-Covert Transition Probability to Transition Weight
+Covert Transition Probability to Transition Weight by `log`
 
 | | H | L | END
 |-|---|---|-----
@@ -14,7 +14,7 @@ Covert Transition Probability to Transition Weight
 | H | -1.32 | -1.32 | -2.32
 | L | -2.32 | -1 | -1.74
 
-Covert Emission Probability to Emission Weight
+Covert Emission Probability to Emission Weight by `log`
 
 | | A | C | G | T
 |-|---|---|---|---
@@ -33,6 +33,11 @@ The trellis table is as following
 Based on above table, the sequence of `GCACTG` should be `HHLLLL`.
 
 ### 1.2 POS Tagging
+
+The codes consists of three files:
+- `preprocess.py` Codes to form the vocabulary and further return the log space of the transition & emission probabilities using the given `α` & `β`
+- `viterbi.py` The core logic implementation of the Viterbi algorithm. It uses the log probabilities returned from `preprocess.py` in the score function.
+- `file.py` The util to read & write file
 
 #### 1
 
@@ -70,7 +75,7 @@ next_tok_last_2_letters  | the last 2 letters of the next token
 
 ### 2
 
-After switching the algorithm from `lbfgs` to `averaged perceptron`, the accuracy on dev data is `85.45%`
+After switching the algorithm from `lbfgs` to `averaged perceptron`, the accuracy on dev data is `85.62%`
 
 
 Not like CRF built on logistic regression, CRF with average perceptron does not use softmax to normalize the scores and so has no loss function to compute the gradient to update the weights which will further require the forward-backward algorithm. Instead, like perceptron, it will predict a label `yˆ` for the training data. However, while the perceptron enumerates all possible labels to find the one with the max score, it uses the Viterbi algorithm here to efficiently search the tag sequence `yˆ`. If the predicted label is inccorect, it updates the weights by adding the features of correct label and subtracting the feature of the predicted label. Like average perceptron, it maintain the sum of such weights and compute the average to use at the end of training.

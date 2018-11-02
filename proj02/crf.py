@@ -66,7 +66,7 @@ class CRF(object):
 
         word_feats['first_letter'] = tok[:1]
 
-        if (len(tok) > 2):
+        if (len(tok) >= 2):
             word_feats['first_2_letters'] = tok[:2]
             word_feats['last_2_letters'] = tok[-2:]
 
@@ -76,7 +76,7 @@ class CRF(object):
             word_feats['prev_tok_is_digit'] = prev_tok.isdigit()
             # word_feats['prev_tok_first_letter'] = prev_tok[:1]
 
-            if (len(prev_tok) > 2):
+            if (len(prev_tok) >= 2):
                 word_feats['prev_tok_first_2_letters'] = prev_tok[:2]
                 word_feats['prev_tok_last_2_letters'] = prev_tok[-2:]
 
@@ -86,7 +86,7 @@ class CRF(object):
             word_feats['next_tok_is_digit'] = next_tok.isdigit()
             # word_feats['next_tok_first_letter'] = next_tok[:1]
 
-            if (len(next_tok) > 2):
+            if (len(next_tok) >= 2):
                 word_feats['next_tok_first_2_letters'] = next_tok[:2]
                 word_feats['next_tok_last_2_letters'] = next_tok[-2:]
 
