@@ -50,11 +50,7 @@ def data_to_idx(data, word_map):
     return [[word_map[token] for token in line] for line in data]
 
 
-def random_batch(trn, size=1):
-    # only support batch 1 for now
-    assert size == 1
-
-    sentence = random.choice(trn)
+def sentence_to_tensors(sentence):
     # exclude <end>
     input_tensor = torch.LongTensor(sentence[:-1])
     input_tensor = input_tensor.view(input_tensor.size(0), 1)
@@ -63,6 +59,14 @@ def random_batch(trn, size=1):
     target_tensor = torch.LongTensor(sentence[1:])
 
     return input_tensor, target_tensor
+
+
+def random_batch(trn, size=1):
+    # only support batch 1 for now
+    assert size == 1
+
+    sentence = random.choice(trn)
+    return sentence_to_tensors(sentence)
 
 class LM(nn.Module):
     ''' Language Model '''
