@@ -18,9 +18,11 @@ LAYER_NUM = 1
 PRINT_EVERY = 500
 SAVE_EVERY = 1000
 
-CHECKPOINTS_FOLDER = os.path.join(DIR_NAME, 'checkpoints')
+CHECKPOINTS_FOLDER = os.path.join(DIR_NAME, 'checkpoints/simple_rnnlm')
 CHECKPOINTS = '10000.tar'
 
+USE_CUDA = torch.cuda.is_available()
+DEVICE = torch.device("cuda" if USE_CUDA else "cpu")
 
 def load_data(file_path):
     path = os.path.join(DIR_NAME, file_path)
@@ -97,6 +99,8 @@ def train(model, trn, iterations=10000, checkpoints=None):
         optimizer.zero_grad()
 
         input_tensor, target_tensor = random_batch(trn, BATCH_SIZE)
+        input_tensor = input_tensor.to(DEVICE)
+        target_tensor = target_tensor.to(DEVICE)
 
         output_tensor = model(input_tensor)
 
@@ -149,7 +153,10 @@ def main():
     word_map = build_word_map(trn_data)
     print('number of tokens:', len(word_map))
 
+    print('device:', DEVICE)
+
     model = LM(len(word_map), INPUT_SIZE, HIDDEN_SIZE, LAYER_NUM)
+    model.to(DEVICE)
     if checkpoint:
         model.load_state_dict(checkpoint['lm'])
 
