@@ -19,7 +19,7 @@ PRINT_EVERY = 50
 SAVE_EVERY = 10000
 
 CHECKPOINTS_FOLDER = os.path.join(DIR_NAME, 'checkpoints/simple_rnnlm')
-CHECKPOINTS = '210000.tar'
+CHECKPOINT_FILE = '210000.tar'
 
 USE_CUDA = torch.cuda.is_available()
 DEVICE = torch.device("cuda" if USE_CUDA else "cpu")
@@ -140,8 +140,8 @@ def train(model, trn, iterations=10000, checkpoints=None):
 
 def main():
     checkpoint = None
-    if CHECKPOINTS and CHECKPOINTS != '':
-        cp_file = os.path.join(CHECKPOINTS_FOLDER, CHECKPOINTS)
+    if CHECKPOINT_FILE and CHECKPOINT_FILE != '':
+        cp_file = os.path.join(CHECKPOINTS_FOLDER, CHECKPOINT_FILE)
 
         if not os.path.exists(cp_file):
             print('no checkpoint file', cp_file)
