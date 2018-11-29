@@ -18,6 +18,9 @@ LAYER_NUM = 1
 PRINT_EVERY = 500
 SAVE_EVERY = 1000
 
+CHECKPOINTS_FOLDER = os.path.join(DIR_NAME, 'checkpoints')
+CHECKPOINTS = '10000.tar'
+
 
 def load_data(file_path):
     path = os.path.join(DIR_NAME, file_path)
@@ -66,6 +69,7 @@ class LM(nn.Module):
         super(LM, self).__init__()
 
         self.embedding = nn.Embedding(token_size, input_size)
+        self.embedding_dropout = nn.Dropout(p=0.2)
         self.lstm = nn.LSTM(input_size, hidden_size, layer_size)
         self.out = nn.Linear(hidden_size, token_size)
         self.log_softmax = nn.LogSoftmax(dim=2)
@@ -73,17 +77,23 @@ class LM(nn.Module):
     # input shape (length, batch = 1)
     def forward(self, input_tensor):
         embeded = self.embedding(input_tensor)
+        embeded = self.embedding_dropout(embeded)
         lstm_output, _ = self.lstm(embeded)
         output = self.out(lstm_output)
         return self.log_softmax(output)
 
-def train(model, trn, iterations=10000):
+def train(model, trn, iterations=10000, checkpoints=None):
     loss = nn.NLLLoss()
     optimizer = torch.optim.SGD(model.parameters(), lr=0.1)
+    start_iter = 0
+
+    if checkpoints:
+        optimizer.load_state_dict(checkpoints['opt'])
+        start_iter = checkpoints['iteration']
 
     total_loss = 0 # for print
 
-    for i in range(1, iterations + 1):
+    for i in range(start_iter + 1, iterations + 1):
         optimizer.zero_grad()
 
         input_tensor, target_tensor = random_batch(trn, BATCH_SIZE)
@@ -108,18 +118,30 @@ def train(model, trn, iterations=10000):
 
         # Save checkpoint
         if i % SAVE_EVERY == 0:
-            checkpoints_dir = os.path.join(DIR_NAME, 'checkpoints')
-            if not os.path.exists(checkpoints_dir):
-                os.makedirs(checkpoints_dir)
+            if not os.path.exists(CHECKPOINTS_FOLDER):
+                os.makedirs(CHECKPOINTS_FOLDER)
 
             torch.save({
                 'iteration': i,
                 'loss': output_loss.item(),
                 'lm': model.state_dict(),
                 'opt': optimizer.state_dict()
-            }, os.path.join(checkpoints_dir, f'{i}.tar'))
+            }, os.path.join(CHECKPOINTS_FOLDER, f'{i}.tar'))
+
+    print('training ends')
 
 def main():
+    checkpoint = None
+    if CHECKPOINTS and CHECKPOINTS != '':
+        cp_file = os.path.join(CHECKPOINTS_FOLDER, CHECKPOINTS)
+
+        if not os.path.exists(cp_file):
+            print('no checkpoint file', cp_file)
+            quit()
+
+        print('load checkpoint', cp_file)
+        checkpoint = torch.load(cp_file)
+
     trn_data = load_data(TRN_FILE)
     dev_data = load_data(DEV_FILE)
     tst_data = load_data(TST_FILE)
@@ -128,14 +150,16 @@ def main():
     print('number of tokens:', len(word_map))
 
     model = LM(len(word_map), INPUT_SIZE, HIDDEN_SIZE, LAYER_NUM)
+    if checkpoint:
+        model.load_state_dict(checkpoint['lm'])
 
     trn_idx = data_to_idx(trn_data, word_map)
     dev_idx = data_to_idx(dev_data, word_map)
     tst_idx = data_to_idx(tst_data, word_map)
 
-    iter_num = 10000
+    iter_num = 100000
     print(f'start training of {iter_num} iterations')
-    train(model, trn_idx, iter_num)
+    train(model, trn_idx, iter_num, checkpoint)
 
 
 if __name__ == '__main__':
