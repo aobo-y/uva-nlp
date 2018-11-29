@@ -15,7 +15,8 @@ HIDDEN_SIZE = 32
 BATCH_SIZE = 1
 LAYER_NUM = 1
 
-PRINT_EVERY = 1000
+PRINT_EVERY = 500
+SAVE_EVERY = 1000
 
 
 def load_data(file_path):
@@ -36,6 +37,8 @@ def build_word_map(data):
     for line in data:
         for token in line:
             tokens.add(token)
+
+    tokens = sorted(tokens) # sort the set in order to stable the word index
     return {token: idx for idx, token in enumerate(tokens)}
 
 def data_to_idx(data, word_map):
@@ -103,6 +106,18 @@ def train(model, trn, iterations=10000):
             print('%s iter(%d) avg-loss: %.4f' % (time.strftime('%x %X'), i, total_loss / PRINT_EVERY))
             total_loss = 0
 
+        # Save checkpoint
+        if i % SAVE_EVERY == 0:
+            checkpoints_dir = os.path.join(DIR_NAME, 'checkpoints')
+            if not os.path.exists(checkpoints_dir):
+                os.makedirs(checkpoints_dir)
+
+            torch.save({
+                'iteration': i,
+                'loss': output_loss.item(),
+                'lm': model.state_dict(),
+                'opt': optimizer.state_dict()
+            }, os.path.join(checkpoints_dir, f'{i}.tar'))
 
 def main():
     trn_data = load_data(TRN_FILE)
