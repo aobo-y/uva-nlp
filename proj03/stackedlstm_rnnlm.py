@@ -15,11 +15,11 @@ HIDDEN_SIZE = 32
 BATCH_SIZE = 1
 LAYER_NUM = 3
 
-PRINT_EVERY = 5000
+PRINT_EVERY = 50
 SAVE_EVERY = 10000
 
 CHECKPOINTS_FOLDER = os.path.join(DIR_NAME, 'checkpoints/stackedlstm_rnnlm')
-CHECKPOINTS = ''
+CHECKPOINT_FILE = '210000.tar'
 
 USE_CUDA = torch.cuda.is_available()
 DEVICE = torch.device("cuda" if USE_CUDA else "cpu")
@@ -50,11 +50,7 @@ def data_to_idx(data, word_map):
     return [[word_map[token] for token in line] for line in data]
 
 
-def random_batch(trn, size=1):
-    # only support batch 1 for now
-    assert size == 1
-
-    sentence = random.choice(trn)
+def sentence_to_tensors(sentence):
     # exclude <end>
     input_tensor = torch.LongTensor(sentence[:-1])
     input_tensor = input_tensor.view(input_tensor.size(0), 1)
@@ -63,6 +59,14 @@ def random_batch(trn, size=1):
     target_tensor = torch.LongTensor(sentence[1:])
 
     return input_tensor, target_tensor
+
+
+def random_batch(trn, size=1):
+    # only support batch 1 for now
+    assert size == 1
+
+    sentence = random.choice(trn)
+    return sentence_to_tensors(sentence)
 
 class LM(nn.Module):
     ''' Language Model '''
@@ -134,10 +138,11 @@ def train(model, trn, iterations=10000, checkpoints=None):
 
     print('training ends')
 
-def main():
+# init everything, export to perplexity to use
+def init():
     checkpoint = None
-    if CHECKPOINTS and CHECKPOINTS != '':
-        cp_file = os.path.join(CHECKPOINTS_FOLDER, CHECKPOINTS)
+    if CHECKPOINT_FILE and CHECKPOINT_FILE != '':
+        cp_file = os.path.join(CHECKPOINTS_FOLDER, CHECKPOINT_FILE)
 
         if not os.path.exists(cp_file):
             print('no checkpoint file', cp_file)
@@ -147,8 +152,7 @@ def main():
         checkpoint = torch.load(cp_file, map_location=DEVICE)
 
     trn_data = load_data(TRN_FILE)
-    dev_data = load_data(DEV_FILE)
-    tst_data = load_data(TST_FILE)
+
 
     word_map = build_word_map(trn_data)
     print('number of tokens:', len(word_map))
@@ -161,9 +165,18 @@ def main():
     if checkpoint:
         model.load_state_dict(checkpoint['lm'])
 
+    return model, word_map, checkpoint, trn_data
+
+
+def main():
+    model, word_map, checkpoint, trn_data = init()
+
+    # dev_data = load_data(DEV_FILE)
+    # tst_data = load_data(TST_FILE)
+
     trn_idx = data_to_idx(trn_data, word_map)
-    dev_idx = data_to_idx(dev_data, word_map)
-    tst_idx = data_to_idx(tst_data, word_map)
+    # dev_idx = data_to_idx(dev_data, word_map)
+    # tst_idx = data_to_idx(tst_data, word_map)
 
     iter_num = 1 * 1000 * 1000
     print(f'start training of {iter_num} iterations')
