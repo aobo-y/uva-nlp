@@ -144,7 +144,7 @@ def main():
             quit()
 
         print('load checkpoint', cp_file)
-        checkpoint = torch.load(cp_file)
+        checkpoint = torch.load(cp_file, map_location=DEVICE)
 
     trn_data = load_data(TRN_FILE)
     dev_data = load_data(DEV_FILE)

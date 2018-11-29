@@ -15,11 +15,11 @@ HIDDEN_SIZE = 32
 BATCH_SIZE = 1
 LAYER_NUM = 1
 
-PRINT_EVERY = 5000
+PRINT_EVERY = 50
 SAVE_EVERY = 10000
 
 CHECKPOINTS_FOLDER = os.path.join(DIR_NAME, 'checkpoints/simple_rnnlm')
-CHECKPOINTS = ''
+CHECKPOINTS = '210000.tar'
 
 USE_CUDA = torch.cuda.is_available()
 DEVICE = torch.device("cuda" if USE_CUDA else "cpu")
@@ -144,7 +144,7 @@ def main():
             quit()
 
         print('load checkpoint', cp_file)
-        checkpoint = torch.load(cp_file)
+        checkpoint = torch.load(cp_file, map_location=DEVICE)
 
     trn_data = load_data(TRN_FILE)
     dev_data = load_data(DEV_FILE)
