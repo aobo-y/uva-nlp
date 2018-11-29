@@ -26,7 +26,7 @@ DEVICE = torch.device("cuda" if USE_CUDA else "cpu")
 
 def load_data(file_path):
     path = os.path.join(DIR_NAME, file_path)
-    with open(path, 'r', encoding='urf-8') as file:
+    with open(path, 'r', encoding='utf-8') as file:
         lines = [l.strip() for l in file.read().split('\n')]
 
     lines = [l.split(' ') for l in lines if l != '']
