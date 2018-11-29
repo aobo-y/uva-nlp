@@ -13,12 +13,12 @@ TST_FILE = 'tst-wiki.txt'
 INPUT_SIZE = 32
 HIDDEN_SIZE = 32
 BATCH_SIZE = 1
-LAYER_NUM = 1
+LAYER_NUM = 3
 
 PRINT_EVERY = 5000
 SAVE_EVERY = 10000
 
-CHECKPOINTS_FOLDER = os.path.join(DIR_NAME, 'checkpoints/simple_rnnlm')
+CHECKPOINTS_FOLDER = os.path.join(DIR_NAME, 'checkpoints/stackedlstm_rnnlm')
 CHECKPOINTS = ''
 
 USE_CUDA = torch.cuda.is_available()
