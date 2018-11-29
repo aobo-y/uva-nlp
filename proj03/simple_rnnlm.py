@@ -15,18 +15,18 @@ HIDDEN_SIZE = 32
 BATCH_SIZE = 1
 LAYER_NUM = 1
 
-PRINT_EVERY = 500
-SAVE_EVERY = 1000
+PRINT_EVERY = 5000
+SAVE_EVERY = 10000
 
 CHECKPOINTS_FOLDER = os.path.join(DIR_NAME, 'checkpoints/simple_rnnlm')
-CHECKPOINTS = '10000.tar'
+CHECKPOINTS = ''
 
 USE_CUDA = torch.cuda.is_available()
 DEVICE = torch.device("cuda" if USE_CUDA else "cpu")
 
 def load_data(file_path):
     path = os.path.join(DIR_NAME, file_path)
-    with open(path) as file:
+    with open(path, 'r', encoding='urf-8') as file:
         lines = [l.strip() for l in file.read().split('\n')]
 
     lines = [l.split(' ') for l in lines if l != '']
@@ -164,7 +164,7 @@ def main():
     dev_idx = data_to_idx(dev_data, word_map)
     tst_idx = data_to_idx(tst_data, word_map)
 
-    iter_num = 100000
+    iter_num = 1 * 1000 * 1000
     print(f'start training of {iter_num} iterations')
     train(model, trn_idx, iter_num, checkpoint)
 
