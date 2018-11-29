@@ -138,7 +138,8 @@ def train(model, trn, iterations=10000, checkpoints=None):
 
     print('training ends')
 
-def main():
+# init everything, export to perplexity to use
+def init():
     checkpoint = None
     if CHECKPOINT_FILE and CHECKPOINT_FILE != '':
         cp_file = os.path.join(CHECKPOINTS_FOLDER, CHECKPOINT_FILE)
@@ -151,8 +152,7 @@ def main():
         checkpoint = torch.load(cp_file, map_location=DEVICE)
 
     trn_data = load_data(TRN_FILE)
-    dev_data = load_data(DEV_FILE)
-    tst_data = load_data(TST_FILE)
+
 
     word_map = build_word_map(trn_data)
     print('number of tokens:', len(word_map))
@@ -165,9 +165,18 @@ def main():
     if checkpoint:
         model.load_state_dict(checkpoint['lm'])
 
+    return model, word_map, checkpoint, trn_data
+
+
+def main():
+    model, word_map, checkpoint, trn_data = init()
+
+    # dev_data = load_data(DEV_FILE)
+    # tst_data = load_data(TST_FILE)
+
     trn_idx = data_to_idx(trn_data, word_map)
-    dev_idx = data_to_idx(dev_data, word_map)
-    tst_idx = data_to_idx(tst_data, word_map)
+    # dev_idx = data_to_idx(dev_data, word_map)
+    # tst_idx = data_to_idx(tst_data, word_map)
 
     iter_num = 1 * 1000 * 1000
     print(f'start training of {iter_num} iterations')
