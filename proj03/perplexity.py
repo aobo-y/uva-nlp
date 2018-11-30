@@ -3,6 +3,7 @@ import math
 import argparse
 
 parser = argparse.ArgumentParser()
+parser.add_argument('--checkpoint')
 parser.add_argument('--model', choices={'1', '2', '3', '4'})
 args = parser.parse_args()
 
@@ -53,7 +54,7 @@ def perplexity(model, data):
 def main():
     print('calculate perplexity for model:', MODEL_NAME)
 
-    model, word_map, trn_data, _ = init()
+    model, word_map, trn_data, _ = init(args.checkpoint)
 
     dev_data = load_data(DEV_FILE)
     tst_data = load_data(TST_FILE)

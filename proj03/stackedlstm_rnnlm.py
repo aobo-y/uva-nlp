@@ -5,10 +5,6 @@ import argparse
 import torch
 from torch import nn
 
-parser = argparse.ArgumentParser()
-parser.add_argument('--checkpoint')
-args = parser.parse_args()
-
 MODEL_NAME = 'stackedlstm_rnnlm'
 
 DIR_NAME = os.path.dirname(__file__)
@@ -24,7 +20,6 @@ PRINT_EVERY = 500
 SAVE_EVERY = 20000
 
 CHECKPOINTS_FOLDER = os.path.join(DIR_NAME, 'checkpoints', MODEL_NAME)
-CHECKPOINT_FILE = args.checkpoint
 
 USE_CUDA = torch.cuda.is_available()
 DEVICE = torch.device("cuda" if USE_CUDA else "cpu")
@@ -144,12 +139,12 @@ def train(model, trn, iterations=10000, checkpoints=None):
     print('training ends')
 
 # init everything, export to perplexity to use
-def init():
+def init(checkpoint_file):
     print('device:', DEVICE)
 
     checkpoint = None
-    if CHECKPOINT_FILE and CHECKPOINT_FILE != '':
-        cp_file = os.path.join(CHECKPOINTS_FOLDER, CHECKPOINT_FILE)
+    if checkpoint_file and checkpoint_file != '':
+        cp_file = os.path.join(CHECKPOINTS_FOLDER, checkpoint_file)
 
         if not os.path.exists(cp_file):
             print('no checkpoint file', cp_file)
@@ -174,7 +169,12 @@ def init():
 
 
 def main():
-    model, word_map, trn_data, checkpoint = init()
+    parser = argparse.ArgumentParser()
+    parser.add_argument('--checkpoint')
+    args = parser.parse_args()
+    checkpoint_file = args.checkpoint
+
+    model, word_map, trn_data, checkpoint = init(checkpoint_file)
 
     # dev_data = load_data(DEV_FILE)
     # tst_data = load_data(TST_FILE)
