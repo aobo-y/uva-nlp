@@ -15,6 +15,8 @@ elif args.model == '3':
     from opt_rnnlm import MODEL_NAME, DEVICE, init, load_data, data_to_idx, sentence_to_tensors
 elif args.model == '4':
     from model_rnnlm import MODEL_NAME, DEVICE, init, load_data, data_to_idx, sentence_to_tensors
+elif args.model == '5':
+    from minibatch_rnnlm import MODEL_NAME, DEVICE, init, load_data, data_to_idx, sentence_to_tensors
 
 DIR_NAME = os.path.dirname(__file__)
 
