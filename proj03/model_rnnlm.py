@@ -11,7 +11,7 @@ DIR_NAME = os.path.dirname(__file__)
 
 TRN_FILE = 'trn-wiki.txt'
 
-INPUT_SIZE = 128
+INPUT_SIZE = 256
 HIDDEN_SIZE = 256
 BATCH_SIZE = 1
 LAYER_NUM = 1
