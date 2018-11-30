@@ -95,7 +95,7 @@ class LM(nn.Module):
 
 def train(model, trn, iterations=10000, checkpoints=None):
     loss = nn.NLLLoss()
-    optimizer = torch.optim.SGD(model.parameters(), lr=0.1)
+    optimizer = torch.optim.SGD(model.parameters(), lr=0.01)
     start_iter = 0
 
     if checkpoints:
