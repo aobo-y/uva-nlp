@@ -31,7 +31,7 @@ def perplexity(model, data):
             sentence_ll.append(token_ll)
 
         data_ll.append(sentence_ll)
-        if idx % PRINT_EVERY == 0 and idx != 0:
+        if (idx + 1) % PRINT_EVERY == 0:
             print('number of sentences:', idx)
 
     size = sum([len(sentence_ll) for sentence_ll in data_ll])
