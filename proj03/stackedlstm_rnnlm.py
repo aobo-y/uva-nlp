@@ -159,8 +159,6 @@ def init():
     word_map = build_word_map(trn_data)
     print('number of tokens:', len(word_map))
 
-    print('device:', DEVICE)
-
     print(f'create model: input size {INPUT_SIZE}, hidden size {HIDDEN_SIZE}, layer number {LAYER_NUM}')
     model = LM(len(word_map), INPUT_SIZE, HIDDEN_SIZE, LAYER_NUM)
     model.to(DEVICE)
