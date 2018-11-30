@@ -19,7 +19,7 @@ def perplexity(model, data):
     data_ll = []
     for idx, line in enumerate(data):
         input_tensor, target_tensor = sentence_to_tensors(line)
-        input_tensor.to(DEVICE)
+        input_tensor = input_tensor.to(DEVICE)
 
         output_tensor = model(input_tensor)
         output_tensor = output_tensor.squeeze(1)
