@@ -75,17 +75,18 @@ def main():
     tst_perplexity, tst_ll = perplexity(model, tst_idx)
     print('development testing perplexity:', tst_perplexity)
 
-    print('output testing log-likelihood')
-    if not os.path.exists(PERPLEXITY_FOLDER):
-        os.mkdir(PERPLEXITY_FOLDER)
+    if args.model == '1':
+        print('output testing log-likelihood')
+        if not os.path.exists(PERPLEXITY_FOLDER):
+            os.mkdir(PERPLEXITY_FOLDER)
 
-    with open(PERPLEXITY_FILE, 'w', encoding='utf-8') as file:
-        output = []
-        for line, line_ll in zip(tst_data, tst_ll):
-            ll_output = [f'{token}\t{token_ll}' for token, token_ll in zip(line[1:], line_ll)]
-            output.append('\n'.join(ll_output))
+        with open(PERPLEXITY_FILE, 'w', encoding='utf-8') as file:
+            output = []
+            for line, line_ll in zip(tst_data, tst_ll):
+                ll_output = [f'{token}\t{token_ll}' for token, token_ll in zip(line[1:], line_ll)]
+                output.append('\n'.join(ll_output))
 
-        file.write('\n'.join(output))
+            file.write('\n'.join(output))
 
 if __name__ == '__main__':
     main()
