@@ -1,8 +1,13 @@
 import os
 import random
 import time
+import argparse
 import torch
 from torch import nn
+
+parser = argparse.ArgumentParser()
+parser.add_argument('--checkpoint')
+args = parser.parse_args()
 
 MODEL_NAME = 'simple_rnnlm'
 
@@ -19,7 +24,7 @@ PRINT_EVERY = 50
 SAVE_EVERY = 10000
 
 CHECKPOINTS_FOLDER = os.path.join(DIR_NAME, 'checkpoints', MODEL_NAME)
-CHECKPOINT_FILE = '210000.tar'
+CHECKPOINT_FILE = args.checkpoint
 
 USE_CUDA = torch.cuda.is_available()
 DEVICE = torch.device("cuda" if USE_CUDA else "cpu")
