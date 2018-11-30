@@ -19,7 +19,7 @@ PRINT_EVERY = 50
 SAVE_EVERY = 10000
 
 CHECKPOINTS_FOLDER = os.path.join(DIR_NAME, 'checkpoints', MODEL_NAME)
-CHECKPOINT_FILE = '210000.tar'
+CHECKPOINT_FILE = ''
 
 USE_CUDA = torch.cuda.is_available()
 DEVICE = torch.device("cuda" if USE_CUDA else "cpu")

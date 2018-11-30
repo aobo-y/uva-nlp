@@ -1,7 +1,17 @@
 import os
 import math
 import torch
-from simple_rnnlm import MODEL_NAME, DEVICE, init, load_data, data_to_idx, sentence_to_tensors
+import argparse
+
+parser = argparse.ArgumentParser()
+parser.add_argument('--model', choices={'1', '2', '3', '4'})
+args = parser.parse_args()
+
+if args.model == '1':
+    from simple_rnnlm import MODEL_NAME, DEVICE, init, load_data, data_to_idx, sentence_to_tensors
+elif args.model == '2':
+    from stackedlstm_rnnlm import MODEL_NAME, DEVICE, init, load_data, data_to_idx, sentence_to_tensors
+
 
 DIR_NAME = os.path.dirname(__file__)
 
