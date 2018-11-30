@@ -4,11 +4,11 @@ import time
 import torch
 from torch import nn
 
+MODEL_NAME = 'stackedlstm_rnnlm'
+
 DIR_NAME = os.path.dirname(__file__)
 
 TRN_FILE = 'trn-wiki.txt'
-DEV_FILE = 'dev-wiki.txt'
-TST_FILE = 'tst-wiki.txt'
 
 INPUT_SIZE = 32
 HIDDEN_SIZE = 32
@@ -18,7 +18,7 @@ LAYER_NUM = 3
 PRINT_EVERY = 50
 SAVE_EVERY = 10000
 
-CHECKPOINTS_FOLDER = os.path.join(DIR_NAME, 'checkpoints/stackedlstm_rnnlm')
+CHECKPOINTS_FOLDER = os.path.join(DIR_NAME, 'checkpoints', MODEL_NAME)
 CHECKPOINT_FILE = '210000.tar'
 
 USE_CUDA = torch.cuda.is_available()
@@ -165,11 +165,11 @@ def init():
     if checkpoint:
         model.load_state_dict(checkpoint['lm'])
 
-    return model, word_map, checkpoint, trn_data
+    return model, word_map, trn_data, checkpoint
 
 
 def main():
-    model, word_map, checkpoint, trn_data = init()
+    model, word_map, trn_data, checkpoint = init()
 
     # dev_data = load_data(DEV_FILE)
     # tst_data = load_data(TST_FILE)
