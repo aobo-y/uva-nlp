@@ -140,6 +140,8 @@ def train(model, trn, iterations=10000, checkpoints=None):
 
 # init everything, export to perplexity to use
 def init():
+    print('device:', DEVICE)
+
     checkpoint = None
     if CHECKPOINT_FILE and CHECKPOINT_FILE != '':
         cp_file = os.path.join(CHECKPOINTS_FOLDER, CHECKPOINT_FILE)
