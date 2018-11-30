@@ -4,7 +4,7 @@ import argparse
 
 parser = argparse.ArgumentParser()
 parser.add_argument('--checkpoint')
-parser.add_argument('--model', choices={'1', '2', '3', '4'})
+parser.add_argument('--model', choices={'1', '2', '3', '4', '5'})
 args = parser.parse_args()
 
 if args.model == '1':
