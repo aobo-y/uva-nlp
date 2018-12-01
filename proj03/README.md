@@ -22,7 +22,7 @@ The script supports 2 arguments, `--model=x` to specify which model to calculate
 
 ### 3
 
-Perplexity for the simple_rnnlm
+Perplexity of the simple_rnnlm
 
 trn | dev
 -|-
@@ -30,7 +30,7 @@ trn | dev
 
 ### 4
 
-The best Perplexity for the stackedlstm_rnnlm, which has `3` layers
+The best Perplexity of the stackedlstm_rnnlm, which contains `3` stacked layers
 
 trn | dev
 -|-
@@ -38,7 +38,7 @@ trn | dev
 
 ### 5
 
-The best Perplexity for the opt_rnnlm, which adopts the `Adam` algorithm
+The best Perplexity of the opt_rnnlm, which adopts the `Adam` algorithm
 
 trn | dev
 -|-
@@ -46,7 +46,7 @@ trn | dev
 
 ### 6
 
-The best Perplexity for the model_rnnlm, which set both input & hidden size as `256`
+The best Perplexity of the model_rnnlm, which set both input & hidden size as `256`
 
 trn | dev
 -|-
