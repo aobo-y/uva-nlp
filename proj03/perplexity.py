@@ -37,7 +37,7 @@ def perplexity(model, data):
         input_tensor, target_tensor = sentence_to_tensors(line)
         input_tensor = input_tensor.to(DEVICE)
 
-        if model != '5':
+        if args.model != '5':
             output_tensor = model(input_tensor)
         else:
             length_tensor = torch.tensor([input_tensor.size(0)])
