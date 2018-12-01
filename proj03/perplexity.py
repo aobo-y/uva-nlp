@@ -41,6 +41,7 @@ def perplexity(model, data):
             output_tensor = model(input_tensor)
         else:
             length_tensor = torch.tensor([input_tensor.size(0)])
+            input_tensor = input_tensor.view(input_tensor.size(0), 1, -1)
             output_tensor = model(input_tensor, length_tensor)
 
         output_tensor = output_tensor.squeeze(1)
