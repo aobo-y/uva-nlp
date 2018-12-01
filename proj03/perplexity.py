@@ -1,6 +1,7 @@
 import os
 import math
 import argparse
+import torch
 
 parser = argparse.ArgumentParser()
 parser.add_argument('--checkpoint')
@@ -36,7 +37,12 @@ def perplexity(model, data):
         input_tensor, target_tensor = sentence_to_tensors(line)
         input_tensor = input_tensor.to(DEVICE)
 
-        output_tensor = model(input_tensor)
+        if model != 5:
+            output_tensor = model(input_tensor)
+        else:
+            length_tensor = torch.tensor([input_tensor.size(0)])
+            output_tensor = model(input_tensor, length_tensor)
+
         output_tensor = output_tensor.squeeze(1)
 
         sentence_ll = []
